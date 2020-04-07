@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Try</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>    	
+    <div id="main">
+    	<h1>Fresh Tomatoes Movie Data</h1>
+    	<div id = "tabs">
+    		<table>
+    			<tr>
+    				<td>
+    					<h2>Sort by</h2>
+    				</td>
+    				<td>
+<!--
+    					<button class="sort" value="imdb_score">IMDb Score</button>
+			    		<button class="sort" value="gross">Gross Revenue</button>
+			    		<button class="sort" value="num_voted_users">Popularity</button>
+-->
+                        <input type="button" class="sort" value="imdb_score">IMDb Score
+			    		<input type="button" class="sort" value="gross">Gross Revenue
+			    		<input type="button" class="sort" value="num_voted_users">Popularity
+    				</td>
+    			</tr>
+    		</table>
+    	</div>
+<!--
+        <div style="display: flex">
+            <h2 style="padding: 0 10px">Sort by:</h2>
+            <select class="custom-select" id="categorySelect" onchange="onCategoryChanged()">
+                <option selected value="imdb_score">IMDb Score</option>
+                <option value="gross">Gross Revenue</option>
+                <option value="num_voted_users">Popularity</option>
+            </select>
+        </div>
+-->
+        
+        <svg width=100% height=100%>
+        </svg>
+    </div>
+</body>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="./moviev2.js"></script>
+</html>

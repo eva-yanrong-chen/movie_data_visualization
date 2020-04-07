@@ -1,0 +1,45 @@
+.background {
+    fill: #eee;
+}
+
+body {
+    font-family: "Roboto";
+    margin: 0;
+}
+
+#main {
+    background-color: #122332;
+    padding: 20px;
+}
+
+#header {
+	background-color: #061826;
+}
+
+h1 {
+	color: #ffffff;
+	font-family: "Roboto";
+	font-style: "normal";
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 21px;
+	text-align: center;
+}
+
+h2 {
+	color:#ffffff;
+	font-family: "Roboto";
+	font-style: "normal";
+	font-weight: 250;
+	font-size: 14px;
+	line-height: 18px;
+	text-align: left;
+}
+
+#tabs {
+	padding-left: 30px;
+}
+
+button {
+
+}
