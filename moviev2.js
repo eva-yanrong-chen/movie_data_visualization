@@ -168,7 +168,93 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
             return revenueScale(d.gross);
         })
         .attr('transform', 'translate(2, 17)');
+
+
+
+
+    // SCATTERPLOT
+    var xScale = d3.scaleLinear().range([0, 300]);
+    var yScale = d3.scaleLinear().range([0, 150])
+    var yScale2 = d3.scaleLinear().range([150, 0])
+
+    var votedExtent = d3.extent(filteredMovies, function(d){
+            return +d['num_voted_users'];
+    });
+    var grossExtent = d3.extent(filteredMovies, function(d){
+            return +d['gross'];
+    });
+
+    var scoreExtent = d3.extent(filteredMovies, function(d){
+            return +d['imdb_score'];
+    });
+
+    xScale.domain(votedExtent);
+    yScale.domain(grossExtent);
+    yScale2.domain(scoreExtent);
+
+    var xAxis = d3.axisBottom(xScale);
+    var yAxisTop = d3.axisLeft(yScale);
+    var yAxisBottom = d3.axisLeft(yScale2);
+
+    graph.selectAll('circle')
+    .data(filteredMovies)
+    .enter().append('circle')
+    .attr("cx", function(d) { return xScale(d.num_voted_users);})
+    .attr("cy", function(d) { return yScale(d.gross);})
+    .attr('transform', 'translate(110,550)')
+    .attr("r", function(d) {return 3;});
+
+    graph.selectAll('cir')
+    .data(filteredMovies)
+    .enter().append('circle')
+    .attr("cx", function(d) { return xScale(d.num_voted_users);})
+    .attr("cy", function(d) { return yScale2(d.imdb_score);})
+    .attr("r", function(d) {return 3;})
+    .attr('transform', 'translate(110,395)')
+    .append('text')
+        .attr('y', -10)
+        .text(function(d) {
+            return d.movie_title;
+        });
+
+    graph.append('g')
+        .attr('class', 'axis')
+        .attr('transform', 'translate(100,390)')
+        .call(yAxisBottom);
+
+    graph.append('g')
+        .attr('class', 'axis')
+        .attr('transform', 'translate(100,540)')
+        .call(xAxis);
+
+    graph.append('g')
+        .attr('class', 'axis')
+        .attr('transform', 'translate(100,545)')
+        .call(yAxisTop);
+
+    graph.append('text')
+            .attr('class', 'title')
+            .attr('transform', 'translate(430,550)')
+            .text('# of User Reviews');
+
+    graph.append('text')
+            .attr('class', 'label')
+            .attr('transform', 'translate(100,350)')
+            .attr("font-weight", "bold")
+            .text('Movie Incomes and Ratings Across Popularity');    
+
+    graph.append('text')
+            .attr('class', 'label')
+            .attr('transform', 'translate(20,670) rotate(-90)')
+            .text('Gross Income');
+
+    graph.append('text')
+            .attr('class', 'label')
+            .attr('transform', 'translate(20,500) rotate(-90)')
+            .text('IMBD Score');
 });
+var graph = d3.select("svg");
+
 
 
 
