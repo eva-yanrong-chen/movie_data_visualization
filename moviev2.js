@@ -33,7 +33,7 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
         movies[i].movie_id = i;
     }
     
-    var yearInput = 1980;
+    var yearInput = 2009;
 
     //Variable that stores the movies for the year selected 
     filteredMovies = movies.filter(function(d) {
@@ -43,23 +43,9 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
             return;
         }
     });
-    console.log(filteredMovies);
-    
-//    // Sort descending by the prob of survival
-//    filteredChar.sort( function(a, b){
-//        return b.probability_of_survival - a.probability_of_survival;
-//    });
-    
-//    var sortBy = {
-//        score: d3.comparator()
-//            .order(d3.descending, function(d) { return d.imdb_score; }),
-//        revenue: d3.comparator()
-//            .order(d3.descending, function(d) { return d.gross; }),
-//        popularity: d3.comparator()
-//            .order(d3.descending, function(d) { return d.num_voted_users; })
-//    };
     
     d3.selectAll(".sort")
+         //on click actions
         .on("click", function(d) {
         console.log("Working");
         
@@ -79,9 +65,46 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
             .attr('transform', function translate(d, i) {
                 return 'translate('+(i%x)*z+','+Math.floor(i/x)*z+')';
             });
+        
     });
     
+    d3.selectAll('g')
+//        .data(filteredMovies, function(d) {
+//            return d.movie_id;
+//        })
+        .attr('class', 'rect')
+        .on("mouseover", function(d){
+            console.log("hover");
+        
+        selectedValue = this.value;
+        console.log(selectedValue);
+    });
     
+    function details(d) {
+        var feature = d.feature;
+        var data = feature.properties.data;
+
+        var width = 300;
+        var height = 80;
+        var margin = {left:20,right:15,top:40,bottom:40};
+        var parse = d3.timeParse("%m");
+        var format = d3.timeFormat("%b");
+
+        var div = d3.create("div")
+        var svg = div.append("svg")
+            .attr("width", width+margin.left+margin.right)
+            .attr("height", height+margin.top+margin.bottom);
+        
+        var title = svg.append("text")
+            .style("font-size", "20px")
+            .text(feature.properties.title)
+            .attr("x", width/2 + margin.left)
+            .attr("y", 30)
+            .attr("text-anchor","middle");
+    
+        return div.node();
+    }
+
     
     
     //SCALES
@@ -116,7 +139,7 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
     var clapperboard = chartG.selectAll('.rect')
         .data(filteredMovies, function(d) {
             return d.movie_id;
-        })
+        });
 
     var clapperboardEnter = clapperboard.enter()
         .append('g')
@@ -124,6 +147,13 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
         .attr('transform', function translate(d, i) {
             return 'translate('+(i%x)*z+','+Math.floor(i/x)*z+')';
         });
+
+//    clapperboard.merge(clapperboardEnter)
+//        .transisition()
+//        .duration(750)
+//        .attr('transform', function(d, i) {
+//            return 'translate('+(i%x)+z+','+Math.floor(i/x)*z+')';
+//        });
 
     clapperboardEnter.append('rect')
         .attr('width', 30)
@@ -253,7 +283,9 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
             .attr('transform', 'translate(20,500) rotate(-90)')
             .text('IMBD Score');
 });
+
 var graph = d3.select("svg");
+
 
 
 
