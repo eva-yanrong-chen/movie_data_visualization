@@ -9,7 +9,7 @@ body {
 
 #main {
     background-color: #122332;
-    padding: 20px;
+    padding: 10px 20px 10px 20px;
 }
 
 #header {
@@ -22,7 +22,7 @@ h1 {
 	font-style: "normal";
 	font-weight: 500;
 	font-size: 18px;
-	line-height: 21px;
+	line-height: 18px;
 	text-align: center;
 }
 
@@ -34,12 +34,30 @@ h2 {
 	font-size: 14px;
 	line-height: 18px;
 	text-align: left;
+	padding-right: 8px
 }
 
 #tabs {
 	padding-left: 30px;
 }
 
-button {
+.sort {
+	background-color: rgba(0, 0, 0, 0);
+	border: 1.2px solid #C7D8E5;
+	color: white;
+	font-family: Roboto;
+	font-size: 14px;
+	padding: 6px 16px;
+	border-radius: 20px;
+	transition-duration: 0.4s;
+}
 
+.sort:hover {
+	background-color: #C7D8E5;
+	color: #122332;
+}
+
+.sort:active {
+	background-color: #8FA7BA;
+	border: 1.2px solid #8FA7BA;
 }
