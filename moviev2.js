@@ -56,11 +56,20 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
         .max(2016)
         .step(1)
         .width(800)
-        .default(1980)
+        .default(yearInput)
         .on('onchange', val => {
-            //The value of year is the value of the slider and log the year in console.
             yearInput = val;
-            console.log(yearInput);
+            // update filteredMovies when the value of the slider changes
+            filteredMovies = movies.filter(function (d) {
+                if (d.title_year == yearInput) {
+                    return d;
+                } else {
+                    return;
+                }
+            });
+            console.log(filteredMovies);
+
+            updateClapperboard(filteredMovies);
         });
 
     var gTime = d3
@@ -157,6 +166,54 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
     .domain(popularityDomain)
     .range([6, 27]);
 
+    //LEGEND
+    var legend = svg.append('text')
+        .text('Legend')
+        .attr('fill', '#FFFFFF')
+        .attr('transform', 'translate(1024, 40)')
+
+    var legendIcon = svg.append('g')
+        .attr('transform', 'translate(1024, 72)');
+
+    legendIcon.append('rect')
+        .attr('width', 58)
+        .attr('height', 11.6)
+        .attr('fill', '#293B4B')
+        .attr('transform', 'rotate(-16)');
+
+    legendIcon.append('rect')
+        .attr('width', 58)
+        .attr('height', 34.79)
+        .attr('fill', '#293B4B')
+        .attr('transform', 'translate(2.4, 12)');
+
+    legendIcon.append('rect')
+        .attr('width', 48)
+        .attr('height', 11.6)
+        .attr('fill', '#FF5A28')
+        .attr('transform', 'rotate(-16)');
+
+    legendIcon.append('rect')
+        .attr('width', 30)
+        .attr('height', 15)
+        .attr('fill', '#981CB7')
+        .attr('transform', 'translate(4.4, 14)');
+
+    legendIcon.append('rect')
+        .attr('width', 38)
+        .attr('height', 15)
+        .attr('fill', '#BCE1FF')
+        .attr('transform', 'translate(4.4, 31)');
+
+
+    // clapperboardEnter.append('rect')
+    //     .attr('width', 27.08)
+    //     .attr('height', 7.22)
+    //     .attr('fill', function(d) {
+    //         return revenueScale(d.gross);
+    //     })
+    //     .attr('transform', 'translate(2, 17)');
+
     updateClapperboard(filteredMovies);
 });
 
@@ -212,53 +269,7 @@ function updateClapperboard(filteredMovies) {
         .attr('fill', '#BCE1FF')
         .attr('transform', 'translate(3, 14)');
 
-    //LEGEND
-    var legend = svg.append('text')
-        .text('Legend')
-        .attr('fill', '#FFFFFF')
-        .attr('transform', 'translate(1024, 40)')
-
-    var legendIcon = svg.append('g')
-        .attr('transform', 'translate(1024, 72)');
-
-    legendIcon.append('rect')
-        .attr('width', 58)
-        .attr('height', 11.6)
-        .attr('fill', '#293B4B')
-        .attr('transform', 'rotate(-16)');
-
-    legendIcon.append('rect')
-        .attr('width', 58)
-        .attr('height', 34.79)
-        .attr('fill', '#293B4B')
-        .attr('transform', 'translate(2.4, 12)');
-
-    legendIcon.append('rect')
-        .attr('width', 48)
-        .attr('height', 11.6)
-        .attr('fill', '#FF5A28')
-        .attr('transform', 'rotate(-16)');
-
-    legendIcon.append('rect')
-        .attr('width', 30)
-        .attr('height', 15)
-        .attr('fill', '#981CB7')
-        .attr('transform', 'translate(4.4, 14)');
-
-    legendIcon.append('rect')
-        .attr('width', 38)
-        .attr('height', 15)
-        .attr('fill', '#BCE1FF')
-        .attr('transform', 'translate(4.4, 31)');
-
-
-    // clapperboardEnter.append('rect')
-    //     .attr('width', 27.08)
-    //     .attr('height', 7.22)
-    //     .attr('fill', function(d) {
-    //         return revenueScale(d.gross);
-    //     })
-    //     .attr('transform', 'translate(2, 17)');
+    clapperboard.exit().remove();
 }
 
 
