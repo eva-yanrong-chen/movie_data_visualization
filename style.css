@@ -43,3 +43,11 @@ h2 {
 button {
 
 }
+
+.plot-label {
+    opacity: 0;
+}
+
+.imdb-plot:hover .plot-label {
+    opacity: 1;
+}
