@@ -48,6 +48,30 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
         }
     });
     console.log(filteredMovies);
+
+    // Slider
+    var slider = d3
+        .sliderTop()
+        .min(1916)
+        .max(2016)
+        .step(1)
+        .width(800)
+        .default(1980)
+        .on('onchange', val => {
+            //The value of year is the value of the slider and log the year in console.
+            yearInput = val;
+            console.log(yearInput);
+        });
+
+    var gTime = d3
+        .select('div#slider')
+        .append('svg')
+        .attr('width', 900)
+        .attr('height', 100)
+        .append('g')
+        .attr('transform', 'translate(100, 80)');
+
+    gTime.call(slider);
     
 //    // Sort descending by the prob of survival
 //    filteredChar.sort( function(a, b){
