@@ -48,6 +48,39 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
         }
     });
     console.log(filteredMovies);
+
+    // Slider
+    var slider = d3
+        .sliderTop()
+        .min(1916)
+        .max(2016)
+        .step(1)
+        .width(800)
+        .default(yearInput)
+        .on('onchange', val => {
+            yearInput = val;
+            // update filteredMovies when the value of the slider changes
+            filteredMovies = movies.filter(function (d) {
+                if (d.title_year == yearInput) {
+                    return d;
+                } else {
+                    return;
+                }
+            });
+            console.log(filteredMovies);
+
+            updateClapperboard(filteredMovies);
+        });
+
+    var gTime = d3
+        .select('div#slider')
+        .append('svg')
+        .attr('width', 900)
+        .attr('height', 100)
+        .append('g')
+        .attr('transform', 'translate(100, 80)');
+
+    gTime.call(slider);
     
 //    // Sort descending by the prob of survival
 //    filteredChar.sort( function(a, b){
@@ -133,57 +166,6 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
     .domain(popularityDomain)
     .range([6, 27]);
 
-    //CLAPPERBOARD
-    var clapperboard = chartG.selectAll('.rect')
-        .data(filteredMovies, function(d) {
-            return d.movie_id;
-        })
-
-    var clapperboardEnter = clapperboard.enter()
-        .append('g')
-        .attr('class', 'rect')
-        .attr('transform', function translate(d, i) {
-            return 'translate('+(i%x)*z+','+Math.floor(i/x)*z+')';
-        });
-
-    clapperboardEnter.append('rect')
-        .attr('width', 27.08)
-        .attr('height', 5.42)
-        .attr('fill', '#293B4B')
-        .attr('transform', 'rotate(-16)');
-
-    clapperboardEnter.append('rect')
-        .attr('width', 27.08)
-        .attr('height', 16.25)
-        .attr('fill', '#293B4B')
-        .attr('transform', 'translate(2, 6)');
-
-    clapperboardEnter.append('rect')
-        .attr('width', function(d) {
-            return revenueWidthScale(d.gross);
-        })
-        .attr('height', 5.42)
-        .attr('fill', function(d) {
-            return revenueColorScale(d.gross);
-        })
-        .attr('transform', 'rotate(-16)');
-
-    clapperboardEnter.append('rect')
-        .attr('width', function(d) {
-            return popularityWidthScale(d.num_voted_users);
-        })
-        .attr('height', 6)
-        .attr('fill', '#981CB7')
-        .attr('transform', 'translate(3, 7)');
-
-    clapperboardEnter.append('rect')
-        .attr('width', function(d) {
-            return imdbWidthScale(d.imdb_score);
-        })
-        .attr('height', 6)
-        .attr('fill', '#BCE1FF')
-        .attr('transform', 'translate(3, 14)');
-
     //LEGEND
     var legend = svg.append('text')
         .text('Legend')
@@ -231,7 +213,64 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
     //         return revenueScale(d.gross);
     //     })
     //     .attr('transform', 'translate(2, 17)');
+
+    updateClapperboard(filteredMovies);
 });
+
+function updateClapperboard(filteredMovies) {
+    //CLAPPERBOARD
+    var clapperboard = chartG.selectAll('.rect')
+        .data(filteredMovies, function (d) {
+            return d.movie_id;
+        })
+
+    var clapperboardEnter = clapperboard.enter()
+        .append('g')
+        .attr('class', 'rect')
+        .attr('transform', function translate(d, i) {
+            return 'translate(' + (i % x) * z + ',' + Math.floor(i / x) * z + ')';
+        });
+
+    clapperboardEnter.append('rect')
+        .attr('width', 27.08)
+        .attr('height', 5.42)
+        .attr('fill', '#293B4B')
+        .attr('transform', 'rotate(-16)');
+
+    clapperboardEnter.append('rect')
+        .attr('width', 27.08)
+        .attr('height', 16.25)
+        .attr('fill', '#293B4B')
+        .attr('transform', 'translate(2, 6)');
+
+    clapperboardEnter.append('rect')
+        .attr('width', function (d) {
+            return revenueWidthScale(d.gross);
+        })
+        .attr('height', 5.42)
+        .attr('fill', function (d) {
+            return revenueColorScale(d.gross);
+        })
+        .attr('transform', 'rotate(-16)');
+
+    clapperboardEnter.append('rect')
+        .attr('width', function (d) {
+            return popularityWidthScale(d.num_voted_users);
+        })
+        .attr('height', 6)
+        .attr('fill', '#981CB7')
+        .attr('transform', 'translate(3, 7)');
+
+    clapperboardEnter.append('rect')
+        .attr('width', function (d) {
+            return imdbWidthScale(d.imdb_score);
+        })
+        .attr('height', 6)
+        .attr('fill', '#BCE1FF')
+        .attr('transform', 'translate(3, 14)');
+
+    clapperboard.exit().remove();
+}
 
 
 
