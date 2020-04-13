@@ -1,11 +1,11 @@
 // Global function called when select element is changed
-//function onCategoryChanged() {
-//    var select = d3.select('#categorySelect').node();
-//    // Get current value of select element
-//    var category = select.options[select.selectedIndex].value;
-//    // Update chart with the selected category of letters
-//    updateSort(category);
-//}
+function onCategoryChanged() {
+    var select = d3.select('#categorySelect').node();
+    // Get current value of select element
+    var category = select.options[select.selectedIndex].value;
+    // Update chart with the selected category of letters
+    updateSort(category);
+}
 
 //GRID SETUP
 var w = 1000,
