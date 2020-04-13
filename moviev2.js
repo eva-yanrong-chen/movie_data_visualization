@@ -133,9 +133,13 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
     .domain(popularityDomain)
     .range([6, 27]);
 
+    updateClapperboard(filteredMovies);
+});
+
+function updateClapperboard(filteredMovies) {
     //CLAPPERBOARD
     var clapperboard = chartG.selectAll('.rect')
-        .data(filteredMovies, function(d) {
+        .data(filteredMovies, function (d) {
             return d.movie_id;
         })
 
@@ -143,7 +147,7 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
         .append('g')
         .attr('class', 'rect')
         .attr('transform', function translate(d, i) {
-            return 'translate('+(i%x)*z+','+Math.floor(i/x)*z+')';
+            return 'translate(' + (i % x) * z + ',' + Math.floor(i / x) * z + ')';
         });
 
     clapperboardEnter.append('rect')
@@ -159,17 +163,17 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
         .attr('transform', 'translate(2, 6)');
 
     clapperboardEnter.append('rect')
-        .attr('width', function(d) {
+        .attr('width', function (d) {
             return revenueWidthScale(d.gross);
         })
         .attr('height', 5.42)
-        .attr('fill', function(d) {
+        .attr('fill', function (d) {
             return revenueColorScale(d.gross);
         })
         .attr('transform', 'rotate(-16)');
 
     clapperboardEnter.append('rect')
-        .attr('width', function(d) {
+        .attr('width', function (d) {
             return popularityWidthScale(d.num_voted_users);
         })
         .attr('height', 6)
@@ -177,7 +181,7 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
         .attr('transform', 'translate(3, 7)');
 
     clapperboardEnter.append('rect')
-        .attr('width', function(d) {
+        .attr('width', function (d) {
             return imdbWidthScale(d.imdb_score);
         })
         .attr('height', 6)
@@ -231,7 +235,7 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
     //         return revenueScale(d.gross);
     //     })
     //     .attr('transform', 'translate(2, 17)');
-});
+}
 
 
 
