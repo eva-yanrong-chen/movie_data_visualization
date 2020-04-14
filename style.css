@@ -61,3 +61,51 @@ h2 {
 	background-color: #8FA7BA;
 	border: 1.2px solid #8FA7BA;
 }
+
+.plot-label {
+    opacity: 0;
+}
+
+.imdb-plot:hover .plot-label {
+    opacity: 1;
+    font-size: 12px;
+    color:#f5f5f5;
+}
+
+.imdb-plot:hover {
+    opacity: 1;
+    color: yellow;
+}
+
+.imdb-plot {
+    opacity: .2;
+    color: #42c5f5;
+}
+
+.gross-plot:hover .plot-label {
+    opacity: 1;
+    font-size: 12px;
+}
+
+.gross-plot:hover {
+    opacity: 1;
+    color: yellow;
+}
+
+.gross-plot {
+    opacity: .2;
+    color: #42c5f5;
+}
+
+circle .gross-plot: {
+    opacity: .2;
+    color: #42c5f5;
+}
+
+.axis {
+    color:#f5f5f5;
+}
+
+.label {
+    color:#f5f5f5;
+}

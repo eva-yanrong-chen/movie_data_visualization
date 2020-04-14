@@ -1,30 +1,30 @@
 // Global function called when select element is changed
-//function onCategoryChanged() {
+// function onCategoryChanged() {
 //    var select = d3.select('#categorySelect').node();
 //    // Get current value of select element
 //    var category = select.options[select.selectedIndex].value;
 //    // Update chart with the selected category of letters
 //    updateSort(category);
-//}
+// }
 
 //GRID SETUP
-var w = 945,
-    h = 585,
-    z = 45,
-    x = w/z,
+var w = 1500,
+    h = 800,
+    z = 50,
+    x = 16,
     y = h/z;
 
 
 //SVG SETUP
 var svg = d3.select('svg')
-    .attr('width', 1200)
-    .attr('height', 800)
+    .attr('width', w+100)
+    .attr('height', h+100)
     // .attr('width', w+30)
     // .attr('height', h+30);
 
 var chartG = svg.append('g')
-    .attr('width', w+30)
-    .attr('height', w+30)
+    // .attr('width', w+30)
+    // .attr('height', w+30)
     .attr('transform', 'translate(30, 30)');
 
 
@@ -78,7 +78,7 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
         .attr('width', 900)
         .attr('height', 100)
         .append('g')
-        .attr('transform', 'translate(100, 80)');
+        .attr('transform', 'translate(40, 80)');
 
     gTime.call(slider);
     
@@ -113,6 +113,9 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
             .data(filteredMovies, function(d) {
                 return d.movie_id;
             })
+            .transition()
+            .duration(750)
+            .ease(d3.easeLinear)
             .attr('transform', function translate(d, i) {
                 return 'translate('+(i%x)*z+','+Math.floor(i/x)*z+')';
             });
@@ -136,11 +139,59 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
     //     .domain(criticRatingDomain)
     //     .range([2, 27]);
 
+    function details(d) {
+        var feature = d.feature;
+        var data = feature.properties.data;
+
+        var width = 300;
+        var height = 80;
+        var margin = {left:20,right:15,top:40,bottom:40};
+        var parse = d3.timeParse("%m");
+        var format = d3.timeFormat("%b");
+
+        var div = d3.create("div")
+        var svg = div.append("svg")
+            .attr("width", width+margin.left+margin.right)
+            .attr("height", height+margin.top+margin.bottom);
+        
+        var title = svg.append("text")
+            .style("font-size", "20px")
+            .text(feature.properties.title)
+            .attr("x", width/2 + margin.left)
+            .attr("y", 30)
+            .attr("text-anchor","middle");
+    
+        return div.node();
+    }
+
+    popularityDomain = [6, 1676169];
+    //popularityDomain = [1, 5060];
+
+     popularityScale = d3.scaleLinear()
+        .domain(popularityDomain)
+        .range([1, 30]);
+
+    userRatingDomain = [6, 1676169];
+    
+    userRatingScale = d3.scaleLinear()
+        .domain(userRatingDomain)
+        .range([6, 30]);
+
+    criticRatingDomain = [2, 10];
+
+    criticRatingScale = d3.scaleLinear()
+        .domain(criticRatingDomain)
+        .range([2, 30]);    
+
     revenueDomain = [0, 7.61e8];
+
+    revenueScale = d3.scaleLinear()
+        .domain(revenueDomain)
+        .interpolate(d3.interpolateHcl)
+        .range([d3.rgb(255, 250, 175), d3.rgb(255, 90, 40)]);
 
     imdbScoreDomain = [2, 10];
 
-    popularityDomain = [6, 1676169];
 
     // popularityDomain = [1, 5060];
 
@@ -170,10 +221,10 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
     var legend = svg.append('text')
         .text('Legend')
         .attr('fill', '#FFFFFF')
-        .attr('transform', 'translate(1024, 40)')
+        .attr('transform', 'translate(1107, 80)')
 
     var legendIcon = svg.append('g')
-        .attr('transform', 'translate(1024, 72)');
+        .attr('transform', 'translate(1100, 15)');
 
     legendIcon.append('rect')
         .attr('width', 58)
@@ -204,6 +255,7 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
         .attr('height', 15)
         .attr('fill', '#BCE1FF')
         .attr('transform', 'translate(4.4, 31)');
+
 
 
     // clapperboardEnter.append('rect')
@@ -270,7 +322,108 @@ function updateClapperboard(filteredMovies) {
         .attr('transform', 'translate(3, 14)');
 
     clapperboard.exit().remove();
-}
+
+    // SCATTERPLOT
+    //function updateClapperboard(filteredMovies) {
+
+        var votedExtent = d3.extent(filteredMovies, function(d){
+                return +d['num_voted_users'];
+        });
+        var grossExtent = d3.extent(filteredMovies, function(d){
+                return +d['gross'];
+        });
+
+        var scoreExtent = d3.extent(filteredMovies, function(d){
+                return +d['imdb_score'];
+        });
+        
+        var xScale = d3.scaleLinear().domain(votedExtent).range([0, 300]);
+        var yScale = d3.scaleLinear().domain(grossExtent).range([0, 150]);
+        var yScale2 = d3.scaleLinear().domain(scoreExtent).range([150, 0]);
+
+        var xAxis = d3.axisBottom(xScale);
+        var yAxisTop = d3.axisLeft(yScale);
+        var yAxisBottom = d3.axisLeft(yScale2);
+        
+        var group = svg.append('g')
+            .attr('transform', 'translate(850, -200)');
+        
+        var gross_plot = group.selectAll('.gross-plot')
+            .data(filteredMovies)
+            .enter().append('circle')
+            .attr('class', 'gross-plot')
+            .attr("cx", function(d) { return xScale(d.num_voted_users);})
+            .attr("cy", function(d) { return yScale(d.gross);})
+            .attr('transform', 'translate(110,550)')
+            .attr("r", function(d) {return 3;});
+
+            gross_plot.append('text')
+                .attr('class', "plot-label")
+                .attr('transform', 'translate(110,385)')
+                .text(function(d) {
+                    return d.movie_title;
+                });
+
+        var imdb_plot = group.selectAll('.imbd-plot')
+            .data(filteredMovies)
+            .enter().append('g')
+            .attr('class', 'imdb-plot')
+    //        .attr("cx", function(d) { return xScale(d.num_voted_users);})
+    //        .attr("cy", function(d) { return yScale2(d.imdb_score);})
+            .attr('transform', function(d) {
+                return 'translate('+xScale(d.num_voted_users)+','+yScale2(d.imdb_score)+')';
+            });
+            imdb_plot.append('circle')
+            .attr("r", function(d) {return 3;})
+            .attr('transform', 'translate(110,395)');
+            imdb_plot.append('text')
+                .attr('class', "plot-label")
+                .attr('transform', 'translate(110,385)')
+                .text(function(d) {
+                    return d.movie_title;
+                });
+
+        group.append('g')
+            .attr('class', 'axis')
+            .attr('transform', 'translate(100,390)')
+            .call(yAxisBottom);
+
+        group.append('g')
+            .attr('class', 'axis')
+            .attr('transform', 'translate(100,540)')
+            .call(xAxis);
+
+        group.append('g')
+            .attr('class', 'axis')
+            .attr('transform', 'translate(100,545)')
+            .call(yAxisTop);
+
+        group.append('text')
+                .attr('class', 'title')
+                .attr('transform', 'translate(430,550)')
+                .text('# of User Reviews');
+
+        group.append('text')
+                .attr('class', 'label')
+                .attr('transform', 'translate(100,350)')
+                .attr("font-weight", "bold")
+                .text('Movie Incomes and Ratings Across Popularity');    
+
+        group.append('text')
+                .attr('class', 'label')
+                .attr('transform', 'translate(20,670) rotate(-90)')
+                .text('Gross Income');
+
+        group.append('text')
+                .attr('class', 'label')
+                .attr('transform', 'translate(20,500) rotate(-90)')
+                .text('IMBD Score');
+        group.exit.remove();
+    //};
+};    
+var svg = d3.select("svg");
+
+//}
 
 
 
