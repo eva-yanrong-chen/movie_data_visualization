@@ -359,7 +359,7 @@ function updateClapperboard(filteredMovies) {
 
             gross_plot.append('text')
                 .attr('class', "plot-label")
-                .attr('transform', 'translate(110,550)')
+                .attr('transform', 'translate(110,540)')
                 .text(function(d) {
                     return d.movie_title;
                 });

@@ -70,9 +70,11 @@ h2 {
 
 .imdb-plot:hover .plot-label {
     opacity: 1;
+    text-anchor: middle;
     font-size: 12px;
     fill:#f5f5f5;
 }
+
 
 .imdb-plot:hover {
     opacity: 1;
@@ -85,8 +87,11 @@ h2 {
 }
 
 .gross-plot:hover .plot-label {
+    text-anchor: middle;
     opacity: 1;
     font-size: 12px;
+    fill:#f5f5f5;
+
 }
 
 .gross-plot:hover {
