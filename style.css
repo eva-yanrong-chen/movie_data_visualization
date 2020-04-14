@@ -9,7 +9,7 @@ body {
 
 #main {
     background-color: #122332;
-    padding: 20px;
+    padding: 10px 20px 10px 20px;
 }
 
 #header {
@@ -22,7 +22,7 @@ h1 {
 	font-style: "normal";
 	font-weight: 500;
 	font-size: 18px;
-	line-height: 21px;
+	line-height: 18px;
 	text-align: center;
 }
 
@@ -34,14 +34,61 @@ h2 {
 	font-size: 14px;
 	line-height: 18px;
 	text-align: left;
+	padding-right: 8px
 }
 
 #tabs {
 	padding-left: 30px;
 }
 
-button {
+.sort {
+	background-color: rgba(0, 0, 0, 0);
+	border: 1.2px solid #C7D8E5;
+	color: white;
+	font-family: Roboto;
+	font-size: 14px;
+	padding: 6px 16px;
+	border-radius: 20px;
+	transition-duration: 0.4s;
+}
 
+.sort:hover {
+	background-color: #C7D8E5;
+	color: #122332;
+}
+
+.sort:active {
+	background-color: #8FA7BA;
+	border: 1.2px solid #8FA7BA;
+}
+
+.plot-label {
+    opacity: 0;
+}
+
+.imdb-plot:hover .plot-label {
+    opacity: 1;
+    font-size: 12px;
+    color:#f5f5f5;
+}
+
+.imdb-plot:hover {
+    opacity: 1;
+    color: yellow;
+}
+
+.imdb-plot {
+    opacity: .2;
+    color: #42c5f5;
+}
+
+.gross-plot:hover .plot-label {
+    opacity: 1;
+    font-size: 12px;
+}
+
+/*
+<<<<<<< HEAD
 }
 
 .plot-label {
@@ -51,3 +98,28 @@ button {
 .imdb-plot:hover .plot-label {
     opacity: 1;
 }
+=======
+*/
+.gross-plot:hover {
+    opacity: 1;
+    color: yellow;
+}
+
+.gross-plot {
+    opacity: .2;
+    color: #42c5f5;
+}
+
+circle .gross-plot: {
+    opacity: .2;
+    color: #42c5f5;
+}
+
+.axis {
+    color:#f5f5f5;
+}
+
+.label {
+    color:#f5f5f5;
+}
+/*>>>>>>> 31fc9c9ae6a7924d5c9c94017c321944b6a43525*/
