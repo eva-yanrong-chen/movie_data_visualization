@@ -1,5 +1,5 @@
 .background {
-    fill: #eee;
+    fill: #122332;
 }
 
 body {
@@ -62,29 +62,36 @@ h2 {
 	border: 1.2px solid #8FA7BA;
 }
 
-.plot-label {
+.imdb-plot .plot-label {
+    font-size: 5em;
+    size: 1em;
     opacity: 0;
 }
 
 .imdb-plot:hover .plot-label {
     opacity: 1;
+    text-anchor: middle;
     font-size: 12px;
-    color:#f5f5f5;
+    fill:#f5f5f5;
 }
+
 
 .imdb-plot:hover {
     opacity: 1;
-    color: yellow;
+    fill: yellow;
 }
 
 .imdb-plot {
     opacity: .2;
-    color: #42c5f5;
+    fill: #42c5f5;
 }
 
 .gross-plot:hover .plot-label {
+    text-anchor: middle;
     opacity: 1;
     font-size: 12px;
+    fill:#f5f5f5;
+
 }
 
 /*
@@ -102,17 +109,17 @@ h2 {
 */
 .gross-plot:hover {
     opacity: 1;
-    color: yellow;
+    fill: yellow;
 }
 
 .gross-plot {
     opacity: .2;
-    color: #42c5f5;
+    fill: #42c5f5;
 }
 
 circle .gross-plot: {
     opacity: .2;
-    color: #42c5f5;
+    fill: #42c5f5;
 }
 
 .axis {
@@ -120,6 +127,7 @@ circle .gross-plot: {
 }
 
 .label {
-    color:#f5f5f5;
+    fill:#f5f5f5;
+    font-size: 12px;
 }
 /*>>>>>>> 31fc9c9ae6a7924d5c9c94017c321944b6a43525*/
