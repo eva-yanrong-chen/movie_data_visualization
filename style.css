@@ -63,12 +63,11 @@ h2 {
 }
 
 .imdb-plot .plot-label {
-    font-size: 5em;
-    size: 1em;
+    font-size: 2em;
     opacity: 0;
 }
 
-.imdb-plot:hover .plot-label {
+.imdb-plot-circle:hover .plot-label {
     opacity: 1;
     text-anchor: middle;
     font-size: 12px;
@@ -94,19 +93,6 @@ h2 {
 
 }
 
-/*
-<<<<<<< HEAD
-}
-
-.plot-label {
-    opacity: 0;
-}
-
-.imdb-plot:hover .plot-label {
-    opacity: 1;
-}
-=======
-*/
 .gross-plot:hover {
     opacity: 1;
     fill: yellow;
@@ -131,3 +117,8 @@ circle .gross-plot: {
     font-size: 12px;
 }
 /*>>>>>>> 31fc9c9ae6a7924d5c9c94017c321944b6a43525*/
+.detail-info {
+    font-size: 2em;
+    opacity: 1;
+}
+
