@@ -8,8 +8,8 @@ var w = 1143,
 
 //SVG SETUP
 var svg = d3.select('svg')
-    .attr('width', w+100)
-    .attr('height', h+100)
+    .attr('width', w + 250)
+    .attr('height', h + 100)
 
 //for movie details
 var detailGroup = svg.append('g')
@@ -128,6 +128,7 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
             return b[selectedValue] - a[selectedValue];
         });
         console.log(filteredMovies);
+        selectedValue.activeElement;
         
         
         //CLAPPERBOARD
@@ -273,22 +274,25 @@ function updateClapperboard(filteredMovies) {
                 .text(d.movie_title);
             selectedScore = detailGroup.append('text')
                 .attr('id', 'selectedScore')
-                .attr('transform', 'translate(0, 20)');
+                .attr('transform', 'translate(0, 25)');
             d3.select('#selectedScore')
                 .text('IMDb Score : '+d.imdb_score);
             selectedRev = detailGroup.append('text')
                 .attr('id', 'selectedRev')
-                .attr('transform', 'translate(0, 40)');
+                .attr('transform', 'translate(0, 45)');
             d3.select('#selectedRev')
                 .text('Gross Revenue : $'+d.gross);
             selectedPop = detailGroup.append('text')
                 .attr('id', 'selectedPop')
-                .attr('transform', 'translate(0, 60)');
+                .attr('transform', 'translate(0, 65)');
             d3.select('#selectedPop')
                 .text('Popularity : '+d.num_voted_users);    
         })
         .on('click', function(d) {
-                
+            // Use D3 to select element, change opacity
+            d3.select(this)
+                .attr('style','opacity: 50%')
+//                .attr('style', 'border-color: #fff');
         });
 
     clapperboardEnter.append('rect')
@@ -356,7 +360,7 @@ function updateClapperboard(filteredMovies) {
         var yAxisBottom = d3.axisLeft(yScale2);
         
         var group = svg.append('g')
-            .attr('transform', 'translate(790, -150)');
+            .attr('transform', 'translate(850, -120)');
         
         var gross_plot = group.selectAll('.gross-plot')
             .data(filteredMovies)
