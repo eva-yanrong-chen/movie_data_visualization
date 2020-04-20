@@ -200,6 +200,7 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
          //on click actions
         .on("click", function(d) {
             console.log("Working");
+            //d.attr('style','color:white')
         
             selectedValue = this.id;
             // Sort descending by the prob of survival

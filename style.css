@@ -68,10 +68,10 @@ p {
     opacity: 50%;
 }
 
-.sort .active {
+.sort:focus {
     opacity: 50%;
-/*	background-color: #8FA7BA;*/
-/*	border: 1.2px solid #8FA7BA;*/
+    background-color: #8FA7BA;
+    border: 1.2px solid #8FA7BA;
 }
 
 .imdb-plot {
