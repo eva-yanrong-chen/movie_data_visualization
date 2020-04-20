@@ -349,11 +349,11 @@ function updateClapperboard(filteredMovies) {
             //@Rachel the hovering code is here!!
             //Delete this comment when you're done
             //Changing all previous plot's opacity back to 0.2
-            d3.selectAll(".gross-plot").attr("style", 'opacity:0.2');
-            d3.selectAll(".imdb-plot").attr("style", 'opacity:0.2');
+            d3.selectAll(".gross-plot").attr("style", 'opacity:0.2; fill:#42c5f5');
+            d3.selectAll(".imdb-plot").attr("style", 'opacity:0.2; fill:#42c5f5');
 
             //Change the hovered dot's opacity to 1
-            d3.selectAll("#id" + d.movie_id).attr("style", 'opacity:1');
+            d3.selectAll("#id" + d.movie_id).attr('style', 'opacity:1; fill:yellow')
 
             selectedTitle = detailGroup.append('text')
                 .attr('id', 'selectedTitle');
@@ -377,10 +377,13 @@ function updateClapperboard(filteredMovies) {
         })
         .on('click', function(d) {
             // Use D3 to select element, change opacity
+            d3.selectAll('.rect').attr('style', 'opacity: 100%')
+            d3.selectAll("#id" + d.movie_id).attr('style', 'opacity:1; fill:yellow; outline-style:solid; outline-color:red')
             d3.select(this)
                 .attr('style','opacity: 50%')
 //                .attr('style', 'border-color: #fff');
         });
+
 
     clapperboardEnter.append('rect')
         .attr('width', 27.08)
@@ -464,12 +467,6 @@ function updateScatterPlot(filteredMovies) {
         .attr('transform', 'translate(110,550)')
         .attr("r", function(d) {return 3;});
 
-    gross_plot.append('text')
-        .attr('class', "plot-label")
-        .attr('transform', 'translate(110,540)')
-        .text(function(d) {
-            return d.movie_title;
-        });
 
     var imdb_plot = group.selectAll('.imbd-plot')
         .data(filteredMovies)
@@ -484,16 +481,10 @@ function updateScatterPlot(filteredMovies) {
         });
         
     imdb_plot.append('circle')
-        .attr('class', 'imdb-plot-circle')
+        //.attr('class', 'imdb-plot-circle')
         .attr("r", function(d) {return 3;})
         .attr('transform', 'translate(110,395)');
         
-    imdb_plot.append('text')
-        .attr('class', "plot-label")
-        .attr('transform', 'translate(110,385)')
-        .text(function(d) {
-            return d.movie_title;
-        });
 
     group.append('g')
         .attr('class', 'axis')
