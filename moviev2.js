@@ -200,7 +200,6 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
          //on click actions
         .on("click", function(d) {
             console.log("Working");
-            //d.attr('style','color:white')
         
             selectedValue = this.id;
             // Sort descending by the prob of survival
@@ -334,6 +333,7 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
 });
 
 function updateClapperboard(filteredMovies) {
+    var bool = "false";
     //CLAPPERBOARD
     var clapperboard = chartG.selectAll('.rect')
         .data(filteredMovies, function (d) {
@@ -350,6 +350,8 @@ function updateClapperboard(filteredMovies) {
             //@Rachel the hovering code is here!!
             //Delete this comment when you're done
             //Changing all previous plot's opacity back to 0.2
+            if(bool == "false"){
+
             d3.selectAll(".gross-plot").attr("style", 'opacity:0.2; fill:#42c5f5');
             d3.selectAll(".imdb-plot").attr("style", 'opacity:0.2; fill:#42c5f5');
 
@@ -375,14 +377,21 @@ function updateClapperboard(filteredMovies) {
                 .attr('transform', 'translate(0, 65)');
             d3.select('#selectedPop')
                 .text('Popularity : '+d.num_voted_users);  
+
+            }
+            
         })
         .on('click', function(d) {
             // Use D3 to select element, change opacity
+            if(bool == "false") {
             d3.selectAll('.rect').attr('style', 'opacity: 100%')
-            d3.selectAll("#id" + d.movie_id).attr('style', 'opacity:1; fill:yellow; outline-style:solid; outline-color:red')
-            d3.select(this)
-                .attr('style','opacity: 50%')
-//                .attr('style', 'border-color: #fff');
+            d3.selectAll("#id" + d.movie_id).attr('style', 'opacity:1; fill:yellow; outline-style:solid; outline-color:purple; outline-width:medium')
+            d3.select(this).attr('style','stroke: #FFFFFF;');
+                bool = "true";
+            } else {
+                d3.selectAll('.rect').attr('style', 'opacity: 100%')
+                bool = "false";
+            }
         });
 
 
