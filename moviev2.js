@@ -77,10 +77,10 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
     
     
     //LEGEND
-    var legend = svg.append('text')
-        .text('Legend')
-        .attr('fill', '#FFFFFF')
-        .attr('transform', 'translate(907, 85)')
+    // var legend = svg.append('text')
+    //     .text('Legend')
+    //     .attr('fill', '#FFFFFF')
+    //     .attr('transform', 'translate(907, 0)')
 
     var legendIcon = svg.append('g')
         .attr('transform', 'translate(900, 20)');
@@ -115,7 +115,86 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
         .attr('fill', '#BCE1FF')
         .attr('transform', 'translate(4.4, 31)');
 
-    
+    //LEGEND CALLOUTS
+    legendIcon.append('line')
+        .attr('x1', 24)
+        .attr('y1', 0)
+        .attr('x2', 82)
+        .attr('y2', 0)
+        .attr('stroke-width', 1)
+        .attr('stroke', '#FFFFFF');
+
+    legendIcon.append('line')
+        .attr('x1', 24)
+        .attr('y1', 22)
+        .attr('x2', 82)
+        .attr('y2', 22)
+        .attr('stroke-width', 1)
+        .attr('stroke', '#FFFFFF');
+
+    legendIcon.append('line')
+        .attr('x1', 24)
+        .attr('y1', 38)
+        .attr('x2', 82)
+        .attr('y2', 38)
+        .attr('stroke-width', 1)
+        .attr('stroke', '#FFFFFF');
+
+    //LEGEND LABELS
+    legendIcon.append('text')
+        .text('Gross Revenue')
+        .attr('fill', '#FFFFFF')
+        .attr('transform', 'translate(90, 4)')
+        .attr('font-size', 12);
+
+    legendIcon.append('text')
+        .text('Popularity')
+        .attr('fill', '#FFFFFF')
+        .attr('transform', 'translate(90, 26)')
+        .attr('font-size', 12);
+
+    legendIcon.append('text')
+        .text('IMDb Score')
+        .attr('fill', '#FFFFFF')
+        .attr('transform', 'translate(90, 42)')
+        .attr('font-size', 12);
+
+    //COLOR LABELS
+    legendIcon.append('rect')
+        .attr('fill', 'rgb(255, 90, 40)')
+        .attr('width', 10)
+        .attr('height', 10)
+        .attr('transform', 'translate(200, -6)');
+
+    legendIcon.append('rect')
+        .attr('fill', 'rgb(253, 181, 82)')
+        .attr('width', 10)
+        .attr('height', 10)
+        .attr('transform', 'translate(200, 14)');
+
+    legendIcon.append('rect')
+        .attr('fill', 'rgb(255, 250, 175)')
+        .attr('width', 10)
+        .attr('height', 10)
+        .attr('transform', 'translate(200, 34)');
+
+    legendIcon.append('text')
+        .text('Grossed more than $500,000')
+        .attr('font-size', 10)
+        .attr('fill', '#FFFFFF')
+        .attr('transform', 'translate(220, 3)');
+
+    legendIcon.append('text')
+        .text('Grossed more than $250,000')
+        .attr('font-size', 10)
+        .attr('fill', '#FFFFFF')
+        .attr('transform', 'translate(220, 23)');
+
+    legendIcon.append('text')
+        .text('Grossed less than $250,000')
+        .attr('font-size', 10)
+        .attr('fill', '#FFFFFF')
+        .attr('transform', 'translate(220, 43)');
     
     d3.selectAll(".sort")
          //on click actions
@@ -226,8 +305,7 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
 
     revenueColorScale = d3.scaleQuantize()
     .domain(revenueDomain)
-    .range([d3.rgb(255, 250, 175), d3.rgb(252, 206, 110),
-        d3.rgb(254, 155, 60), d3.rgb(255, 90, 40)]);
+    .range([d3.rgb(255, 250, 175), d3.rgb(253, 181, 82), d3.rgb(255, 90, 40)]);
 
     revenueWidthScale = d3.scaleLinear()
     .domain(revenueDomain)
@@ -441,7 +519,7 @@ function updateScatterPlot(filteredMovies) {
     group.append('text')
             .attr('class', 'label')
             .attr('transform', 'translate(50,500) rotate(-90)')
-            .text('IMBD Score');
+            .text('IMDb Score');
 };
 
 var svg = d3.select("svg");

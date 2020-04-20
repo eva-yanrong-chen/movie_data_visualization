@@ -8,7 +8,7 @@ html {
 }
 
 body {
-    font-family: "Roboto";
+    font-family: "Manrope";
     margin: 10px;
 }
 
@@ -51,6 +51,7 @@ p {
 	border: 1.2px solid #C7D8E5;
 	color: darkslategrey;
 	font-family: 'Manrope', sans-serif;
+    font-weight: bold;
 	font-size: 14px;
 	padding: 6px 16px;
 	border-radius: 20px;
@@ -66,7 +67,7 @@ p {
 }
 
 .sort .active {
-    opacity: 75%;
+    opacity: 50%;
 /*	background-color: #8FA7BA;*/
 /*	border: 1.2px solid #8FA7BA;*/
 }
