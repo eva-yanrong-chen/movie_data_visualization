@@ -61,8 +61,8 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
                 }
             });
             console.log(filteredMovies);
-
             updateClapperboard(filteredMovies);
+            updateScatterPlot(filteredMovies);
         });
 
     var gTime = d3
@@ -120,28 +120,28 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
     d3.selectAll(".sort")
          //on click actions
         .on("click", function(d) {
-        console.log("Working");
+            console.log("Working");
         
-        selectedValue = this.id;
-        // Sort descending by the prob of survival
-        filteredMovies.sort( function(a, b){
-            return b[selectedValue] - a[selectedValue];
-        });
-        console.log(filteredMovies);
-        selectedValue.activeElement;
-        
-        
-        //CLAPPERBOARD
-        var clapperboard = chartG.selectAll('.rect')
-            .data(filteredMovies, function(d) {
-                return d.movie_id;
-            })
-            .transition()
-            .duration(750)
-            .ease(d3.easeLinear)
-            .attr('transform', function translate(d, i) {
-                return 'translate('+(i%x)*z+','+Math.floor(i/x)*z+')';
+            selectedValue = this.id;
+            // Sort descending by the prob of survival
+            filteredMovies.sort( function(a, b){
+                return b[selectedValue] - a[selectedValue];
             });
+            console.log(filteredMovies);
+            selectedValue.activeElement;
+            
+            
+            //CLAPPERBOARD
+            var clapperboard = chartG.selectAll('.rect')
+                .data(filteredMovies, function(d) {
+                    return d.movie_id;
+                })
+                .transition()
+                .duration(750)
+                .ease(d3.easeLinear)
+                .attr('transform', function translate(d, i) {
+                    return 'translate('+(i%x)*z+','+Math.floor(i/x)*z+')';
+                });
         
     });
     
@@ -251,6 +251,7 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
     //     .attr('transform', 'translate(2, 17)');
 
     updateClapperboard(filteredMovies);
+    updateScatterPlot(filteredMovies);
 });
 
 function updateClapperboard(filteredMovies) {
@@ -335,109 +336,113 @@ function updateClapperboard(filteredMovies) {
 
     clapperboard.exit().remove();
 
-
+};
     
+function updateScatterPlot(filteredMovies) {
     
-// SCATTERPLOT
+    // Remove all old group plots before starting to draw new ones
+    svg.selectAll('.group').remove();
 
-        var votedExtent = d3.extent(filteredMovies, function(d){
-                return +d['num_voted_users']/1000;
-        });
-        var grossExtent = d3.extent(filteredMovies, function(d){
-                return +d['gross']/1000000;
+    // SCATTERPLOT
+    var votedExtent = d3.extent(filteredMovies, function(d){
+            return +d['num_voted_users']/1000;
+    });
+    var grossExtent = d3.extent(filteredMovies, function(d){
+            return +d['gross']/1000000;
+    });
+
+    var scoreExtent = d3.extent(filteredMovies, function(d){
+            return +d['imdb_score'];
+    });
+    
+    var xScale = d3.scaleLinear().domain(votedExtent).range([0, 300]);
+    var yScale = d3.scaleLinear().domain(grossExtent).range([0, 150]);
+    var yScale2 = d3.scaleLinear().domain(scoreExtent).range([150, 0]);
+
+    var xAxis = d3.axisBottom(xScale);
+    var yAxisTop = d3.axisLeft(yScale);
+    var yAxisBottom = d3.axisLeft(yScale2);
+    
+    var group = svg.append('g')
+        .attr('transform', 'translate(850, -120)')
+        .attr('class', 'group');
+    
+    var gross_plot = group.selectAll('.gross-plot')
+        .data(filteredMovies)
+        .enter()
+        .append('circle')
+        .attr('class', 'gross-plot')
+        .attr("cx", function(d) { return xScale(d.num_voted_users)/1000;})
+        .attr("cy", function(d) { return yScale(d.gross)/1000000;})
+        .attr('transform', 'translate(110,550)')
+        .attr("r", function(d) {return 3;});
+
+    gross_plot.append('text')
+        .attr('class', "plot-label")
+        .attr('transform', 'translate(110,540)')
+        .text(function(d) {
+            return d.movie_title;
         });
 
-        var scoreExtent = d3.extent(filteredMovies, function(d){
-                return +d['imdb_score'];
+    var imdb_plot = group.selectAll('.imbd-plot')
+        .data(filteredMovies)
+        .enter()
+        .append('g')
+        .attr('class', 'imdb-plot')
+//        .attr("cx", function(d) { return xScale(d.num_voted_users);})
+//        .attr("cy", function(d) { return yScale2(d.imdb_score);})
+        .attr('transform', function(d) {
+            return 'translate('+xScale(d.num_voted_users)/1000+','+yScale2(d.imdb_score)+')';
         });
         
-        var xScale = d3.scaleLinear().domain(votedExtent).range([0, 300]);
-        var yScale = d3.scaleLinear().domain(grossExtent).range([0, 150]);
-        var yScale2 = d3.scaleLinear().domain(scoreExtent).range([150, 0]);
-
-        var xAxis = d3.axisBottom(xScale);
-        var yAxisTop = d3.axisLeft(yScale);
-        var yAxisBottom = d3.axisLeft(yScale2);
+    imdb_plot.append('circle')
+        .attr('class', 'imdb-plot-circle')
+        .attr("r", function(d) {return 3;})
+        .attr('transform', 'translate(110,395)');
         
-        var group = svg.append('g')
-            .attr('transform', 'translate(850, -120)');
-        
-        var gross_plot = group.selectAll('.gross-plot')
-            .data(filteredMovies)
-            .enter().append('circle')
-            .attr('class', 'gross-plot')
-            .attr("cx", function(d) { return xScale(d.num_voted_users)/1000;})
-            .attr("cy", function(d) { return yScale(d.gross)/1000000;})
-            .attr('transform', 'translate(110,550)')
-            .attr("r", function(d) {return 3;});
+    imdb_plot.append('text')
+        .attr('class', "plot-label")
+        .attr('transform', 'translate(110,385)')
+        .text(function(d) {
+            return d.movie_title;
+        });
 
-            gross_plot.append('text')
-                .attr('class', "plot-label")
-                .attr('transform', 'translate(110,540)')
-                .text(function(d) {
-                    return d.movie_title;
-                });
+    group.append('g')
+        .attr('class', 'axis')
+        .attr('transform', 'translate(100,390)')
+        .call(yAxisBottom);
 
-        var imdb_plot = group.selectAll('.imbd-plot')
-            .data(filteredMovies)
-            .enter().append('g')
-            .attr('class', 'imdb-plot')
-    //        .attr("cx", function(d) { return xScale(d.num_voted_users);})
-    //        .attr("cy", function(d) { return yScale2(d.imdb_score);})
-            .attr('transform', function(d) {
-                return 'translate('+xScale(d.num_voted_users)/1000+','+yScale2(d.imdb_score)+')';
-            });
-            imdb_plot.append('circle')
-            .attr('class', 'imdb-plot-circle')
-            .attr("r", function(d) {return 3;})
-            .attr('transform', 'translate(110,395)');
-            imdb_plot.append('text')
-                .attr('class', "plot-label")
-                .attr('transform', 'translate(110,385)')
-                .text(function(d) {
-                    return d.movie_title;
-                });
+    group.append('g')
+        .attr('class', 'axis')
+        .attr('transform', 'translate(100,540)')
+        .call(xAxis);
 
-        group.append('g')
-            .attr('class', 'axis')
-            .attr('transform', 'translate(100,390)')
-            .call(yAxisBottom);
+    group.append('g')
+        .attr('class', 'axis')
+        .attr('transform', 'translate(100,545)')
+        .call(yAxisTop);
 
-        group.append('g')
-            .attr('class', 'axis')
-            .attr('transform', 'translate(100,540)')
-            .call(xAxis);
+    group.append('text')
+            .attr('class', 'label')
+            .attr('transform', 'translate(300,580)')
+            .text('# of User Reviews (k)');
 
-        group.append('g')
-            .attr('class', 'axis')
-            .attr('transform', 'translate(100,545)')
-            .call(yAxisTop);
+    group.append('text')
+            .attr('class', 'label')
+            .attr('transform', 'translate(120,370)')
+            .attr("font-weight", "bold")
+            .text('Movie Incomes and Ratings Across Popularity');    
 
-        group.append('text')
-                .attr('class', 'label')
-                .attr('transform', 'translate(300,580)')
-                .text('# of User Reviews (k)');
+    group.append('text')
+            .attr('class', 'label')
+            .attr('transform', 'translate(50,670) rotate(-90)')
+            .text('Gross Income (mil)');
 
-        group.append('text')
-                .attr('class', 'label')
-                .attr('transform', 'translate(120,370)')
-                .attr("font-weight", "bold")
-                .text('Movie Incomes and Ratings Across Popularity');    
-
-        group.append('text')
-                .attr('class', 'label')
-                .attr('transform', 'translate(50,670) rotate(-90)')
-                .text('Gross Income (mil)');
-
-        group.append('text')
-                .attr('class', 'label')
-                .attr('transform', 'translate(50,500) rotate(-90)')
-                .text('IMBD Score');
-//        group.exit.remove();
-    
-     gross_plot.exit().remove();
-     imdb_plot.exit().remove();
-    };
+    group.append('text')
+            .attr('class', 'label')
+            .attr('transform', 'translate(50,500) rotate(-90)')
+            .text('IMBD Score');
+};
 
 var svg = d3.select("svg");
 
