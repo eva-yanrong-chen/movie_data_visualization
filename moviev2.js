@@ -346,7 +346,9 @@ function updateClapperboard(filteredMovies) {
             return 'translate('+(i % x) * z +',' + Math.floor(i / x) * z +')';
         })
         .on("mouseover", function(d){
-            
+            d3.selectAll(".gross-plot").attr("style", 'opacity:0.2');
+            d3.selectAll(".imdb-plot").attr("style", 'opacity:0.2');
+            d3.selectAll("#id" + d.movie_id).attr("style", 'opacity:1');
             selectedTitle = detailGroup.append('text')
                 .attr('id', 'selectedTitle');
             d3.select('#selectedTitle')
@@ -365,7 +367,7 @@ function updateClapperboard(filteredMovies) {
                 .attr('id', 'selectedPop')
                 .attr('transform', 'translate(0, 65)');
             d3.select('#selectedPop')
-                .text('Popularity : '+d.num_voted_users);    
+                .text('Popularity : '+d.num_voted_users);  
         })
         .on('click', function(d) {
             // Use D3 to select element, change opacity
@@ -450,6 +452,7 @@ function updateScatterPlot(filteredMovies) {
         .enter()
         .append('circle')
         .attr('class', 'gross-plot')
+        .attr('id', function(d) { return "id"+d.movie_id})
         .attr("cx", function(d) { return xScale(d.num_voted_users)/1000;})
         .attr("cy", function(d) { return yScale(d.gross)/1000000;})
         .attr('transform', 'translate(110,550)')
@@ -467,6 +470,7 @@ function updateScatterPlot(filteredMovies) {
         .enter()
         .append('g')
         .attr('class', 'imdb-plot')
+        .attr('id', function(d) { return "id"+d.movie_id})
 //        .attr("cx", function(d) { return xScale(d.num_voted_users);})
 //        .attr("cy", function(d) { return yScale2(d.imdb_score);})
         .attr('transform', function(d) {
