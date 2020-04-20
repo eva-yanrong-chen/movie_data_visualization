@@ -153,3 +153,7 @@ circle .gross-plot: {
     fill: #fff;
     font-family: 'Manrope', sans-serif;
 }
+
+#slider {
+    fill: white;
+}
