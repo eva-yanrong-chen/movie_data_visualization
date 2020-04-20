@@ -346,9 +346,15 @@ function updateClapperboard(filteredMovies) {
             return 'translate('+(i % x) * z +',' + Math.floor(i / x) * z +')';
         })
         .on("mouseover", function(d){
+            //@Rachel the hovering code is here!!
+            //Delete this comment when you're done
+            //Changing all previous plot's opacity back to 0.2
             d3.selectAll(".gross-plot").attr("style", 'opacity:0.2');
             d3.selectAll(".imdb-plot").attr("style", 'opacity:0.2');
+
+            //Change the hovered dot's opacity to 1
             d3.selectAll("#id" + d.movie_id).attr("style", 'opacity:1');
+
             selectedTitle = detailGroup.append('text')
                 .attr('id', 'selectedTitle');
             d3.select('#selectedTitle')
