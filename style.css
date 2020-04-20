@@ -20,8 +20,8 @@ h1 {
 	color: orangered;
 	font-family: 'Satisfy', cursive;
 	font-size: 2.5em;
-	line-height: 18px;
-/*	text-align: center;*/
+    line-height: 18px;
+
 }
 
 h2 {
@@ -39,11 +39,13 @@ p {
     font-family: 'Manrope', sans-serif;
     color: #fff;
     font-size: .8em;
-    padding-right: 500px;
+    padding-right: 200px;
+    padding-left: 200px;
 }
 
 #tabs {
-	padding-left: 30px;
+    padding-left: 260px;
+    padding-right: 200px;
 }
 
 .sort {
@@ -125,4 +127,13 @@ circle .gross-plot: {
 
 #slider {
     fill: white;
+}
+
+.descriptives {
+    text-align: center;
+    vertical-align: middle;
+}
+
+svg {
+    padding-top:20px;
 }

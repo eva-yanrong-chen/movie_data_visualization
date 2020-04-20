@@ -13,7 +13,7 @@ var svg = d3.select('svg')
 
 //for movie details
 var detailGroup = svg.append('g')
-    .attr('transform', 'translate(900, 125)')
+    .attr('transform', 'translate(900, 135)')
     .attr('id', 'detailGroup');
 
 //for clapperboards
@@ -69,9 +69,9 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
         .select('div#slider')
         .append('svg')
         .attr('width', 900)
-        .attr('height', 100)
+        .attr('height', 60)
         .append('g')
-        .attr('transform', 'translate(40, 80)');
+        .attr('transform', 'translate(40, 50)');
 
     gTime.call(slider);
     
@@ -83,7 +83,7 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
     //     .attr('transform', 'translate(907, 0)')
 
     var legendIcon = svg.append('g')
-        .attr('transform', 'translate(900, 20)');
+        .attr('transform', 'translate(900, 40)');
 
     legendIcon.append('rect')
         .attr('width', 58)

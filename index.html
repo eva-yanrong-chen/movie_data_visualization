@@ -7,28 +7,29 @@
     <link href="https://fonts.googleapis.com/css?family=Manrope|Satisfy&display=swap" rel="stylesheet">
 </head>
 <body>    	
-
-    <h1>Fresh Take</h1>
-    <p>With this data-vis tool you will be able to explore 100 years for movies from 1916 - 2016 based on their IMBd Score, Total Revenue and Popularity (defined by the total number of people who voted for the movie, regardless of if the vote was good or bad). We hope you can find some insightful trends!</p>
-    <div id="slider"> </div>
-    <div id = "tabs">
-        <table>
-            <tr>
-                <td>
-                    <h2>Sort by</h2>
-                </td>
-                <td>
-<!--
-                    <button class="sort" value="imdb_score">IMDb Score</button>
-                    <button class="sort" value="gross">Gross Revenue</button>
-                    <button class="sort" value="num_voted_users">Popularity</button>
--->
-                    <input type="button" class="sort" value="IMDb Score" id="imdb_score">
-                    <input type="button" class="sort" value="Gross Revenue" id="gross">
-                    <input type="button" class="sort" value="Popularity" id="num_voted_users">
-                </td>
-            </tr>
-        </table>
+    <div class="descriptives">
+        <h1>Fresh Take</h1>
+        <p>With this data-vis tool you will be able to explore 100 years for movies from 1916 - 2016 based on their IMBd Score, Total Revenue and Popularity (defined by the total number of people who voted for the movie, regardless of if the vote was good or bad). We hope you can find some insightful trends!</p>
+        <div id="slider"> </div>
+        <div id = "tabs">
+            <table>
+                <tr>
+                    <td>
+                        <h2>Sort by</h2>
+                    </td>
+                    <td>
+    <!--
+                        <button class="sort" value="imdb_score">IMDb Score</button>
+                        <button class="sort" value="gross">Gross Revenue</button>
+                        <button class="sort" value="num_voted_users">Popularity</button>
+    -->
+                        <input type="button" class="sort" value="IMDb Score" id="imdb_score">
+                        <input type="button" class="sort" value="Gross Revenue" id="gross">
+                        <input type="button" class="sort" value="Popularity" id="num_voted_users">
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 
 <!--
