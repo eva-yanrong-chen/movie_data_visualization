@@ -389,6 +389,8 @@ function updateClapperboard(filteredMovies) {
             d3.select(this).attr('style','stroke: #FFFFFF;');
                 bool = "true";
             } else {
+                d3.selectAll(".gross-plot").attr("style", 'opacity:0.2; fill:#42c5f5');
+                d3.selectAll(".imdb-plot").attr("style", 'opacity:0.2; fill:#42c5f5');
                 d3.selectAll('.rect').attr('style', 'opacity: 100%')
                 bool = "false";
             }
