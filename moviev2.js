@@ -66,7 +66,9 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
                     return;
                 }
             });
+            //log for tracking and debugging purposes
             console.log(filteredMovies);
+            
             updateClapperboard(filteredMovies);
             updateScatterPlot(filteredMovies);
         });
@@ -198,9 +200,11 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
         .attr('fill', '#FFFFFF')
         .attr('transform', 'translate(220, 43)');
     
+    //sorts clapperboards based on selection
     d3.selectAll(".sort")
          //on click actions
         .on("click", function(d) {
+            //log for tracking and debugging purposes
             console.log("Working");
         
             selectedValue = this.id;
@@ -252,8 +256,8 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
         return div.node();
     }
 
+    //SCALES
     popularityDomain = [6, 1676169];
-    //popularityDomain = [1, 5060];
 
      popularityScale = d3.scaleLinear()
         .domain(popularityDomain)
@@ -300,6 +304,7 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
     updateScatterPlot(filteredMovies);
 });
 
+//Update clapperboard location and style based on year and selection 
 function updateClapperboard(filteredMovies) {
     var bool = "false";
     //CLAPPERBOARD
@@ -408,6 +413,7 @@ function updateClapperboard(filteredMovies) {
 
 };
     
+//update scatterplot point location based on year and movie selected
 function updateScatterPlot(filteredMovies) {
     
     // Remove all old group plots before starting to draw new ones
@@ -508,7 +514,6 @@ function updateScatterPlot(filteredMovies) {
 
 var svg = d3.select("svg");
 
-//}
 
 
 
