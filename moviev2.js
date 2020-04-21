@@ -83,10 +83,6 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
     
     
     //LEGEND
-    // var legend = svg.append('text')
-    //     .text('Legend')
-    //     .attr('fill', '#FFFFFF')
-    //     .attr('transform', 'translate(907, 0)')
 
     var legendIcon = svg.append('g')
         .attr('transform', 'translate(900, 40)');
@@ -230,23 +226,6 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
         
     });
     
-    //SCALES
-
-    // popularityScale = d3.scaleLinear()
-    //     .domain(popularityDomain)
-    //     .range([1, 27]);
-
-    // userRatingDomain = [6, 1676169];
-
-    // userRatingScale = d3.scaleLinear()
-    //     .domain(userRatingDomain)
-    //     .range([6, 27]);
-
-    // criticRatingDomain = [2, 10];
-
-    // criticRatingScale = d3.scaleLinear()
-    //     .domain(criticRatingDomain)
-    //     .range([2, 27]);
 
     function details(d) {
         var feature = d.feature;
@@ -336,9 +315,9 @@ function updateClapperboard(filteredMovies) {
             return 'translate('+(i % x) * z +',' + Math.floor(i / x) * z +')';
         })
         .on("mouseover", function(d){
-            //Changing all previous plot's opacity back to 0.2
+            // only alow on hover if a clapperbard has not been selected
             if(bool == "false"){
-
+            //Changing all previous plot's opacity back to 0.2
             d3.selectAll(".gross-plot").attr("style", 'opacity:0.2; fill:#42c5f5');
             d3.selectAll(".imdb-plot").attr("style", 'opacity:0.2; fill:#42c5f5');
 
@@ -370,10 +349,13 @@ function updateClapperboard(filteredMovies) {
         })
         .on('click', function(d) {
             // Use D3 to select element, change opacity
+            // "boolean" value to tell if clapperboard has been selected
+            // only allow click function if a clapperboard is not already selected
             if(bool == "false") {
             d3.selectAll('.rect').attr('style', 'opacity: 100%')
             d3.selectAll("#id" + d.movie_id).attr('style', 'opacity:1; fill:yellow; outline-style:solid; outline-color:purple; outline-width:medium')
             d3.select(this).attr('style','stroke: #FFFFFF;');
+                // change selected bool to true
                 bool = "true";
             } else {
                 d3.selectAll(".gross-plot").attr("style", 'opacity:0.2; fill:#42c5f5');
@@ -432,6 +414,7 @@ function updateScatterPlot(filteredMovies) {
     svg.selectAll('.group').remove();
 
     // SCATTERPLOT
+    // scale data
     var votedExtent = d3.extent(filteredMovies, function(d){
             return +d['num_voted_users']/1000;
     });
@@ -442,19 +425,22 @@ function updateScatterPlot(filteredMovies) {
     var scoreExtent = d3.extent(filteredMovies, function(d){
             return +d['imdb_score'];
     });
-    
+    //add domains and ranges
     var xScale = d3.scaleLinear().domain(votedExtent).range([0, 300]);
     var yScale = d3.scaleLinear().domain(grossExtent).range([0, 150]);
     var yScale2 = d3.scaleLinear().domain(scoreExtent).range([150, 0]);
 
+    // create axis
     var xAxis = d3.axisBottom(xScale);
     var yAxisTop = d3.axisLeft(yScale);
     var yAxisBottom = d3.axisLeft(yScale2);
     
+    // put all elements of plot into a group to allow whole plot to be moved easily
     var group = svg.append('g')
         .attr('transform', 'translate(850, -120)')
         .attr('class', 'group');
     
+    // create data points for gross plot
     var gross_plot = group.selectAll('.gross-plot')
         .data(filteredMovies)
         .enter()
@@ -466,25 +452,23 @@ function updateScatterPlot(filteredMovies) {
         .attr('transform', 'translate(110,550)')
         .attr("r", function(d) {return 3;});
 
-
+    // create data points for imdb plot
     var imdb_plot = group.selectAll('.imbd-plot')
         .data(filteredMovies)
         .enter()
         .append('g')
         .attr('class', 'imdb-plot')
         .attr('id', function(d) { return "id"+d.movie_id})
-//        .attr("cx", function(d) { return xScale(d.num_voted_users);})
-//        .attr("cy", function(d) { return yScale2(d.imdb_score);})
         .attr('transform', function(d) {
             return 'translate('+xScale(d.num_voted_users)/1000+','+yScale2(d.imdb_score)+')';
         });
         
     imdb_plot.append('circle')
-        //.attr('class', 'imdb-plot-circle')
         .attr("r", function(d) {return 3;})
         .attr('transform', 'translate(110,395)');
         
 
+    // place axis and labels 
     group.append('g')
         .attr('class', 'axis')
         .attr('transform', 'translate(100,390)')
