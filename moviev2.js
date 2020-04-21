@@ -301,14 +301,6 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
 
     imdbScoreDomain = [2, 10];
 
-
-    // popularityDomain = [1, 5060];
-
-    // revenueScale = d3.scaleLinear()
-    //     .domain(revenueDomain)
-    //     .interpolate(d3.interpolateHcl)
-    //     .range([d3.rgb(255, 250, 175), d3.rgb(255, 90, 40)]);
-
     revenueColorScale = d3.scaleQuantize()
     .domain(revenueDomain)
     .range([d3.rgb(255, 250, 175), d3.rgb(253, 181, 82), d3.rgb(255, 90, 40)]);
@@ -324,15 +316,6 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
     popularityWidthScale = d3.scaleLinear()
     .domain(popularityDomain)
     .range([6, 27]);
-
-
-    // clapperboardEnter.append('rect')
-    //     .attr('width', 27.08)
-    //     .attr('height', 7.22)
-    //     .attr('fill', function(d) {
-    //         return revenueScale(d.gross);
-    //     })
-    //     .attr('transform', 'translate(2, 17)');
 
     updateClapperboard(filteredMovies);
     updateScatterPlot(filteredMovies);
@@ -353,8 +336,6 @@ function updateClapperboard(filteredMovies) {
             return 'translate('+(i % x) * z +',' + Math.floor(i / x) * z +')';
         })
         .on("mouseover", function(d){
-            //@Rachel the hovering code is here!!
-            //Delete this comment when you're done
             //Changing all previous plot's opacity back to 0.2
             if(bool == "false"){
 
