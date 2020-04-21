@@ -1,4 +1,6 @@
- //GRID SETUP
+//FRESH TOMATOES
+
+//GRID SETUP
 var w = 1143,
     h = 800,
     z = 50,
@@ -11,27 +13,30 @@ var svg = d3.select('svg')
     .attr('width', w + 250)
     .attr('height', h + 100)
 
-//for movie details
+//svg group for movie details
 var detailGroup = svg.append('g')
     .attr('transform', 'translate(900, 135)')
     .attr('id', 'detailGroup');
 
-//for clapperboards
+//svg group for clapperboards
 var chartG = svg.append('g')
     .attr('transform', 'translate(30, 30)');
 
+//pull data from dataset 
 d3.csv('movie_metadata.csv').then(function(dataset) {
 
-    //DATA SHOWING ALL MOVIES FROM 2010 TO TEST
+    //define data
     movies = dataset;
     
+    //give each movie a unique id
     for (var i = 0; i < movies.length; i++) {
         movies[i].movie_id = i;
     }
     
+    //set default year (2009 bc it is the year with the most movies)
     var yearInput = 2009;
 
-    //Variable that stores the movies for the year selected 
+    //variable that stores the movies for the year selected 
     filteredMovies = movies.filter(function(d) {
         if (d.title_year == yearInput) {
             return d;
@@ -39,7 +44,8 @@ d3.csv('movie_metadata.csv').then(function(dataset) {
             return;
         }
     });
-
+    
+    //log for tracking and debugging purposes
     console.log(filteredMovies);
 
     // SLIDER
