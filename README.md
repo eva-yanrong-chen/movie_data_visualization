@@ -1,4 +1,7 @@
 # movie_data_visualization
+
+Demo Video: https://www.youtube.com/watch?v=fTVGIuSnQ6U
+
 Movie data visualization project for CS4460
 
 This code creates a visualization tool using the D3.js JavaScript library. The visualization explores the IMDb movie dataset, IMDb 5000. The dataset contains information for the top 5000 movies under the IMDb database, with release years ranging from 1916 to 2016, giving us full coverage of a century’s worth of data.
